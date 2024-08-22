@@ -1,0 +1,15 @@
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Python
+discord_clone/__pycache__/
+discord_clone/*/__pycache__/
+discord_clone/*/*/__pycache__/
+discord_clone/*/*/*/__pycache__/
+.env/
+.venv/
+venv/
