@@ -4,6 +4,7 @@ Serializers for the Models.
 
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -17,7 +18,28 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["username", "email", "password"]
+        fields = ["username", "email", "display_name", "dob", "password"]
+
+    def validate_dob(self, value):
+        """Validates the date of birth."""
+        today = timezone.now().date()
+
+        if value > today:
+            raise serializers.ValidationError(
+                "Date of birth cannot be in the future."
+            )
+
+        age = (
+            today.year
+            - value.year
+            - ((today.month, today.day) < (value.month, value.day))
+        )
+        if age < 18:
+            raise serializers.ValidationError(
+                "You must be at least 18 years old to register."
+            )
+
+        return value
 
     def validate(self, attrs):
         """Validates the field values entered."""
