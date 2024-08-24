@@ -4,6 +4,7 @@ Views for Registering and Authenticating the Users.
 
 from rest_framework import generics
 from rest_framework import status
+from rest_framework import views
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .serializers import (
@@ -14,6 +15,7 @@ from .serializers import (
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from .utils import JwtTokens
+from core.backends import JwtAuthentication
 
 
 class UserRegistrationView(generics.GenericAPIView):
@@ -70,3 +72,24 @@ class UserLoginView(generics.GenericAPIView):
             return Response(
                 {"error": str(e)}, status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class UserView(generics.GenericAPIView):
+    """Returns the Authenticated User."""
+
+    serializer_class = UserSerializer
+    authentication_classes = [JwtAuthentication]
+
+    def get(self, request):
+        return Response(self.get_serializer(request.user).data)
+
+
+class RefreshTokenView(views.APIView):
+    """Returns the Access token for the corresponding Refresh token present in the Cookies."""
+
+    def post(self, request):
+        refresh_token = request.COOKIES.get("refresh_token")
+        id = JwtTokens.decode_refresh_token(refresh_token)
+        access_token = JwtTokens.create_access_token(id)
+
+        return Response({"token": access_token})
