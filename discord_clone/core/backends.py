@@ -57,7 +57,8 @@ class AuthenticationUsernameBackend:
 
 class JwtAuthentication(BaseAuthentication):
     """
-    Authenticates the user using Bearer Token and returns the user related to it.
+    Authenticates the user using Bearer Token and
+    returns the user related to it.
     """
 
     def authenticate(self, request):

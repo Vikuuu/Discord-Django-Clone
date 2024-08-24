@@ -107,7 +107,7 @@ class UserView(generics.GenericAPIView):
 
 class RefreshTokenView(views.APIView):
     """
-    Returns the Access token for the corresponding Refresh 
+    Returns the Access token for the corresponding Refresh
     token present in the Cookies.
     """
 
@@ -127,7 +127,7 @@ class RefreshTokenView(views.APIView):
 
 class UserLogoutView(views.APIView):
     """
-    Removes the Current refresh token in the Cookies 
+    Removes the Current refresh token in the Cookies
     and from the Token Database.
     """
 
