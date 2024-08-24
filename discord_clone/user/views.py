@@ -13,6 +13,7 @@ from .serializers import (
 )
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
+from .utils import JwtTokens
 
 
 class UserRegistrationView(generics.GenericAPIView):
@@ -52,8 +53,18 @@ class UserLoginView(generics.GenericAPIView):
             user = authenticate(request, username=username, password=password)
             if user is None:
                 raise AuthenticationFailed("Invalid Credentials.")
-            serializer = UserSerializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+
+            access_token = JwtTokens.create_access_token(user.id)
+            refresh_token = JwtTokens.create_refresh_token(user.id)
+
+            response = Response()
+            response.set_cookie(
+                key="refresh_token", value=refresh_token, httponly=True
+            )
+            response.data = {"token": access_token}
+            response.status_code = status.HTTP_200_OK
+
+            return response
 
         except AuthenticationFailed as e:
             return Response(
