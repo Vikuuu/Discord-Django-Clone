@@ -8,6 +8,7 @@ from user.views import (
     UserLoginView,
     UserView,
     RefreshTokenView,
+    UserLogoutView,
 )
 
 app_name = "user"
@@ -17,4 +18,5 @@ urlpatterns = [
     path("login/", UserLoginView.as_view(), name="login"),
     path("me/", UserView.as_view(), name="me"),
     path("refresh/", RefreshTokenView.as_view(), name="refresh"),
+    path("logout/", UserLogoutView.as_view(), name="logout"),
 ]

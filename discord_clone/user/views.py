@@ -16,6 +16,9 @@ from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from .utils import JwtTokens
 from core.backends import JwtAuthentication
+from .models import UserToken
+from django.utils import timezone
+from datetime import timedelta
 
 
 class UserRegistrationView(generics.GenericAPIView):
@@ -59,6 +62,12 @@ class UserLoginView(generics.GenericAPIView):
             access_token = JwtTokens.create_access_token(user.id)
             refresh_token = JwtTokens.create_refresh_token(user.id)
 
+            UserToken.objects.create(
+                user=user,
+                token=refresh_token,
+                expired_at=timezone.now() + timedelta(days=7),
+            )
+
             response = Response()
             response.set_cookie(
                 key="refresh_token", value=refresh_token, httponly=True
@@ -73,6 +82,18 @@ class UserLoginView(generics.GenericAPIView):
                 {"error": str(e)}, status=status.HTTP_400_BAD_REQUEST
             )
 
+        except UserToken.DoesNotExist:
+            return Response(
+                {"error": "Error Saving token, Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": "Unexpected error occured " + str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
 
 class UserView(generics.GenericAPIView):
     """Returns the Authenticated User."""
@@ -85,11 +106,37 @@ class UserView(generics.GenericAPIView):
 
 
 class RefreshTokenView(views.APIView):
-    """Returns the Access token for the corresponding Refresh token present in the Cookies."""
+    """
+    Returns the Access token for the corresponding Refresh 
+    token present in the Cookies.
+    """
 
     def post(self, request):
         refresh_token = request.COOKIES.get("refresh_token")
         id = JwtTokens.decode_refresh_token(refresh_token)
+
+        if not UserToken.objects.filter(
+            user=id, token=refresh_token, expired_at__gt=timezone.now()
+        ).exists():
+            raise AuthenticationFailed("Unauthenticated")
+
         access_token = JwtTokens.create_access_token(id)
 
         return Response({"token": access_token})
+
+
+class UserLogoutView(views.APIView):
+    """
+    Removes the Current refresh token in the Cookies 
+    and from the Token Database.
+    """
+
+    def post(self, request):
+        refresh_token = request.COOKIES.get("refresh_token")
+        UserToken.objects.filter(token=refresh_token).delete()
+
+        response = Response()
+        response.delete_cookie(key="refresh_token")
+        response.data = {"message": "success"}
+
+        return response
