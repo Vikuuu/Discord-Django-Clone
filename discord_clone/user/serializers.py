@@ -82,7 +82,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    """Serializer for User account model. To be referenced in Profile serializer."""
+    """
+    Serializer for User account model.
+    To be referenced in Profile serializer.
+    """
 
     class Meta:
         model = get_user_model()
