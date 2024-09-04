@@ -55,11 +55,14 @@ Here's a list of API Endpoint:
 - `GET /api/user/profile/<str:username>/` - Get the Profile
 - `PATCH /api/user/profile/<str:username>/` - Update user profile
 
-For a full list of endpoints, refer to the Django REST Framework browsable API at `http://127.0.0.1:8000/api/`.
+- `POST /api/friend/send/<str:username>/` - Send Friend Request
+- `POST /api/friend/accept/<str:username>` - Accept Friend Request
+
 
 # Tasks
 - [x] User Creation
 - [x] User Authentication
 - [x] User Profile View
 - [x] Send Friend Request
+- [x] Accept Friend Request
 - [ ] Chat with Friend

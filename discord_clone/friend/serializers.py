@@ -20,3 +20,11 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         friend_request.save()
 
         return friend_request
+
+    def update(self, instance, validated_data):
+        instance.status = self.context.get("status")
+        instance.is_active = False
+
+        instance.save()
+
+        return instance
