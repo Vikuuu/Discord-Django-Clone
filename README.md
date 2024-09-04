@@ -3,9 +3,9 @@ This project is a simplified version of Discord, built using Django Rest Framewo
 
 # Table of Content
 1. [Feature](#feature)
-2. [Installation](installation)
-3. [Usage](usage)
-4. [API Endpoints](apiendpoints)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [API Endpoints](#apiendpoints)
 
 ## Feature
 - User Management: Register, login, and manage user accounts.
