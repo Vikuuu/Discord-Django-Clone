@@ -61,5 +61,5 @@ For a full list of endpoints, refer to the Django REST Framework browsable API a
 - [x] User Creation
 - [x] User Authentication
 - [x] User Profile View
-- [ ] Send Friend Request
+- [x] Send Friend Request
 - [ ] Chat with Friend
