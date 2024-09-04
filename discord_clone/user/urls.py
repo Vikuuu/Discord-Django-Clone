@@ -9,6 +9,7 @@ from user.views import (
     UserView,
     RefreshTokenView,
     UserLogoutView,
+    UserProfileView,
 )
 
 app_name = "user"
@@ -19,4 +20,5 @@ urlpatterns = [
     path("me/", UserView.as_view(), name="me"),
     path("refresh/", RefreshTokenView.as_view(), name="refresh"),
     path("logout/", UserLogoutView.as_view(), name="logout"),
+    path("profile/<str:username>/", UserProfileView.as_view(), name="profile"),
 ]

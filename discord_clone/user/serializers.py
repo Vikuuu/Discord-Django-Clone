@@ -5,6 +5,7 @@ Serializers for the Models.
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from user.models import UserProfile
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -78,3 +79,47 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ["username", "display_name", "email"]
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """Serializer for User account model. To be referenced in Profile serializer."""
+
+    class Meta:
+        model = get_user_model()
+        fields = ["username", "display_name", "email", "dob"]
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """Serializer to return the User Profile Info."""
+
+    user = UserProfileSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = ["photo", "user"]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        request = self.context.get("request")
+        # getting the user profile key from the serializer.
+        profile_representation = representation.get("user", {})
+        representation["owner"] = True
+
+        if instance.user != request.user:
+            profile_representation.pop("email", None)
+            profile_representation.pop("dob", None)
+            representation["owner"] = False
+
+        representation["user"] = profile_representation
+
+        return representation
+
+    def update(self, instance, validated_data):
+        if "user" in validated_data:
+            nested_serializer = self.fields["user"]
+            nested_instance = instance.user
+
+            nested_data = validated_data.pop("user", None)
+            nested_serializer.update(nested_instance, nested_data)
+
+        return super(ProfileSerializer, self).update(instance, validated_data)

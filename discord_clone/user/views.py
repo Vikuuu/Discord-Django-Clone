@@ -11,14 +11,17 @@ from .serializers import (
     UserRegistrationSerializer,
     UserLoginSerializer,
     UserSerializer,
+    ProfileSerializer,
 )
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from .utils import JwtTokens
 from core.backends import JwtAuthentication
-from .models import UserToken
+from .models import UserToken, UserProfile
 from django.utils import timezone
 from datetime import timedelta
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import mixins
 
 
 class UserRegistrationView(generics.GenericAPIView):
@@ -140,3 +143,57 @@ class UserLogoutView(views.APIView):
         response.data = {"message": "success"}
 
         return response
+
+
+class UserProfileView(mixins.UpdateModelMixin, generics.GenericAPIView):
+    """Class for User Profile related request."""
+
+    serializer_class = ProfileSerializer
+    authentication_classes = [JwtAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username):
+        try:
+            user = get_user_model().objects.get(username=username)
+        except get_user_model().DoesNotExist:
+            return Response(
+                {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        user_profile = UserProfile.objects.filter(user=user).first()
+
+        if user_profile is not None:
+            serializer = self.get_serializer(user_profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {"error": "User profile does not exist"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+    def patch(self, request, username):
+        try:
+            user = get_user_model().objects.get(username=username)
+            user_profile = UserProfile.objects.get(user=user)
+        except (get_user_model().DoesNotExist, UserProfile.DoesNotExist):
+            return Response(
+                {"error": "User or User Profile not found!"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if user == request.user:
+            serializer = self.get_serializer(
+                user_profile, data=request.data, partial=True
+            )
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    {"success": "Update successful"}, status=status.HTTP_200_OK
+                )
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+        else:
+            return Response(
+                {"error": "You do not have access to modify this account."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
