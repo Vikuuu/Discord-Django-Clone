@@ -3,3 +3,4 @@ djangorestframework>=3.15.2,<3.16
 psycopg2>=2.9.9,<2.10
 PyJWT>=2.9.0,<2.10
 Pillow>=10.4.0,<10.5
+drf-yasg>=1.21.7,<1.22

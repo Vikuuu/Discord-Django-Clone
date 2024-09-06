@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "core",
     "user",
     "friend",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,13 @@ AUTHENTICATION_BACKENDS = [
     "core.backends.AuthenticationUsernameBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+        }
+    }
+}
