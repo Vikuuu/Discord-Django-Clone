@@ -5,7 +5,8 @@ This project is a simplified version of Discord, built using Django Rest Framewo
 1. [Feature](#feature)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [API Endpoints](#apiendpoints)
+4. [API Endpoints](#endpoints)
+5. [Tasks](#tasks)
 
 ## Feature
 - User Management: Register, login, and manage user accounts.
@@ -43,14 +44,12 @@ Once the server is running, you cna access the API at `http://127.0.0.1:8000/`
 
 You can explore the API using tools like Postman or Django's built-in browsable API.
 
-## API Endpoints
+
+## Endpoints
 
 Here's a list of API Endpoint:
 - `POST /api/user/crete/` - Register User
 - `POST /api/user/login/` - Login User
-- `GET /api/user/me/` - Gets current User
-- `POST /api/user/refresh/` - Generate new access token
-- `POST /api/user/logout/` - Logout User
 
 - `GET /api/user/profile/<str:username>/` - Get the Profile
 - `PATCH /api/user/profile/<str:username>/` - Update user profile
@@ -58,11 +57,19 @@ Here's a list of API Endpoint:
 - `POST /api/friend/send/<str:username>/` - Send Friend Request
 - `POST /api/friend/accept/<str:username>` - Accept Friend Request
 
+You can view all the API endpoint's on this URL: [Swagger API Docs](http://ec2-35-170-186-134.compute-1.amazonaws.com/api/docs/)
 
-# Tasks
+Added the Swagger Documentation.
+
+![swagger_page](https://github.com/user-attachments/assets/7e482e98-0fc4-406d-8ca7-5d31fdfd9c8d)
+
+
+
+## Tasks
 - [x] User Creation
 - [x] User Authentication
 - [x] User Profile View
 - [x] Send Friend Request
 - [x] Accept Friend Request
+- [x] Adding Swagger
 - [ ] Chat with Friend
