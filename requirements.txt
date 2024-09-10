@@ -5,3 +5,6 @@ PyJWT>=2.9.0,<2.10
 Pillow>=10.4.0,<10.5
 drf-yasg>=1.21.7,<1.22
 uwsgi>=2.0.26,<2.1
+channels>=4.1.0,<4.2
+daphne>=4.1.2,<4.2
+django-cors-headers>=4.4.0,<4.5

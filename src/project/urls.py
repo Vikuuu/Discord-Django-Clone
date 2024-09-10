@@ -21,6 +21,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/user/", include("user.urls", namespace="user")),
     path("api/friend/", include("friend.urls", namespace="friend")),
+    path("api/chat/", include("chat.urls", namespace="chat")),
     path(
         "api/docs/",
         schema_view.with_ui("swagger", cache_timeout=0),

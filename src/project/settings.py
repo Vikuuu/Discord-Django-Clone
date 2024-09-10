@@ -34,20 +34,24 @@ if not ALLOWED_HOSTS or ALLOWED_HOSTS == [""]:
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "core",
     "user",
     "friend",
     "drf_yasg",
+    "chat",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -76,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "project.wsgi.application"
+ASGI_APPLICATION = "project.asgi.application"
 
 
 # Database
@@ -154,3 +159,14 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://ec2-35-170-186-134.compute-1.amazonaws.com/",
+    "http://127.0.0.1:3000",
+]
