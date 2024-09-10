@@ -167,6 +167,5 @@ CHANNEL_LAYERS = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://ec2-35-170-186-134.compute-1.amazonaws.com/",
     "http://127.0.0.1:3000",
 ]
