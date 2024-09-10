@@ -72,4 +72,5 @@ Added the Swagger Documentation.
 - [x] Send Friend Request
 - [x] Accept Friend Request
 - [x] Adding Swagger
-- [ ] Chat with Friend
+- [x] Chat with Friend
+- [ ] Create Server
