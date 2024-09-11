@@ -1,3 +1,7 @@
+"""
+Routes for the websockets.
+"""
+
 from django.urls import path
 
 from . import consumers

@@ -1,3 +1,7 @@
+"""
+HTTP routes for the chats.
+"""
+
 from django.urls import path
 from . import views
 

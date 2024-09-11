@@ -1,3 +1,7 @@
+"""
+Serializers for models.py
+"""
+
 from rest_framework import serializers
 from .models import PrivateChat, PrivateChatMessage
 

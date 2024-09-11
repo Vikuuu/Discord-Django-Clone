@@ -1,3 +1,7 @@
+"""
+Middleware for connecting DRF and Channels.
+"""
+
 from django.contrib.auth.models import AnonymousUser
 from channels.db import database_sync_to_async
 from channels.middleware import BaseMiddleware
@@ -7,6 +11,7 @@ from user.utils import JwtTokens
 
 @database_sync_to_async
 def get_user(token_key):
+    """Returns user instance by decoding the JWT token."""
     try:
         user_id = JwtTokens.decode_access_token(token_key)
         return get_user_model().objects.get(pk=user_id)
@@ -16,6 +21,11 @@ def get_user(token_key):
 
 
 class JWTAuthMiddleware(BaseMiddleware):
+    """
+    Authentication middleware to help the channels know who
+    the user is.
+    """
+
     def __init__(self, inner):
         self.inner = inner
 
