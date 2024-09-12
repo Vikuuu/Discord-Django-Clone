@@ -1,3 +1,7 @@
+"""
+Utility functions code.
+"""
+
 import jwt
 from django.utils import timezone
 from datetime import timedelta

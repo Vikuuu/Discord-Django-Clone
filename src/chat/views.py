@@ -24,6 +24,7 @@ from django.contrib.auth import get_user_model
 @authentication_classes([JwtAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def private_chat_list(request):
+    """Returns all the present chat list."""
     serializer = PrivateChatListSerializer(
         request.user.conversations.all(), many=True
     )
@@ -35,6 +36,7 @@ def private_chat_list(request):
 @authentication_classes([JwtAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def private_chat_detail(request, pk):
+    """Returns all the detail of a chat."""
     private_chat = request.user.conversations.get(pk=pk)
 
     private_chat_serializer = PrivateChatDetailSerializer(
@@ -57,6 +59,7 @@ def private_chat_detail(request, pk):
 @authentication_classes([JwtAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def private_chat_start(request, user_id):
+    """Starts a new chat."""
     private_chat = PrivateChat.objects.filter(users__in=[user_id]).filter(
         users__in=[request.user.id]
     )
