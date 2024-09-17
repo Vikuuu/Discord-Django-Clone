@@ -16,23 +16,28 @@ This project is a simplified version of Discord, built using Django Rest Framewo
 ## Installation
 ### Using Docker
 1. Clone the repository:
+
   ```
   git clone https://github.com/Vikuuu/discord-django-clone.git
   cd discord-django-clone
   ```
 2. Build the Docker:
+
   ```
   docker build
   ```
 3. Run the Docker:
+
   ```
   docker-compose up
   ```
 4. Create a Superuser (optional):
+
   ```
   docker-compose run --rm app sh -c "python manage.py createsuperuser"
   ```
 5. Stop the Docker:
+
    ```
    docker-compose down
    ```
@@ -56,6 +61,9 @@ Here's a list of API Endpoint:
 
 - `POST /api/friend/send/<str:username>/` - Send Friend Request
 - `POST /api/friend/accept/<str:username>` - Accept Friend Request
+
+Here's a list of WebSockets API Endpoint:
+- `ws://127.0.0.1:8000/ws/<str:room>/?token=` - Connect to the Private chat
 
 You can view all the API endpoint's on this URL: [Swagger API Docs](http://ec2-35-170-186-134.compute-1.amazonaws.com/api/docs/)
 
