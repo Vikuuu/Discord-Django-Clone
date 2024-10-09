@@ -9,8 +9,6 @@ from .managers import UserAccountManager
 
 
 class UserAccount(AbstractBaseUser, PermissionsMixin):
-    """Custom user model."""
-
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,

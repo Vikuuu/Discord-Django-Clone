@@ -10,6 +10,5 @@ from friend.models import FriendList
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_friend_list(sender, instance, created, **kwargs):
-    """Creates the friend list when user is created."""
     if created:
         FriendList.objects.create(user=instance)

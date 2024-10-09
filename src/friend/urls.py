@@ -1,7 +1,3 @@
-"""
-HTTP routing for the friend functionality.
-"""
-
 from django.urls import path
 from .views import (
     SendFriendRequestView,

@@ -1,7 +1,3 @@
-"""
-Consumer for handling the WebSocket connections.
-"""
-
 import json
 
 from asgiref.sync import sync_to_async
@@ -12,12 +8,7 @@ from django.contrib.auth import get_user_model
 
 
 class PrivateChatConsumer(AsyncWebsocketConsumer):
-    """
-    Consumer for Private Chat between the Friends.
-    """
-
     async def connect(self):
-        """Handles websocket connection."""
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = f"chat_{self.room_name}"
 
@@ -30,14 +21,12 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self):
-        """Handles websocket disconnection."""
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name,
         )
 
     async def receive(self, text_data=None, bytes_data=None):
-        """Handles receiving the message and storing them."""
         data = json.loads(text_data)
 
         private_chat_id = data["data"]["private_chat_id"]
@@ -71,7 +60,6 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def save_message(self, private_chat_id, body, sent_to_id):
-        """Saves the message in database."""
         user = self.scope["user"]
         private_chat_instance = PrivateChat.objects.get(id=private_chat_id)
         sent_to_instance = get_user_model().objects.get(id=sent_to_id)

@@ -1,7 +1,3 @@
-"""
-Serializer for Friend Models.
-"""
-
 from rest_framework import serializers
 from friend.models import FriendRequest
 

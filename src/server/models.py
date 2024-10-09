@@ -15,7 +15,9 @@ class Server(models.Model):
         on_delete=models.CASACADE,
         related_name="created_server",
     )
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
 

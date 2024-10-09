@@ -79,7 +79,10 @@ class UserLoginView(generics.GenericAPIView):
                 samesite="None",
                 secure="True",
             )
-            response.data = {"token": access_token}
+            response.data = {
+                "accessToken": access_token,
+                "refreshToken": refresh_token,
+            }
             response.status_code = status.HTTP_200_OK
 
             return response
