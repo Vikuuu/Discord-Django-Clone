@@ -1,4 +1,4 @@
-# Discord Clone
+# Yet Another Chat App
 This project is a simplified version of Discord, built using Django Rest Framework (DRF). It serves as a backend for a chat application, providing endpoints for user management, friend interactions, and project-related functionalities.
 
 # Table of Content
