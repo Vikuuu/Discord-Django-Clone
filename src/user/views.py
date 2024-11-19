@@ -77,7 +77,7 @@ class UserLoginView(generics.GenericAPIView):
                 value=refresh_token,
                 httponly=True,
                 samesite="None",
-                secure="True",
+                secure=False,
             )
             response.data = {
                 "accessToken": access_token,
